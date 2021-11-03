@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InputHandler;
 
 namespace MultiSSH
 {
@@ -16,7 +17,7 @@ namespace MultiSSH
             string scope = Program.currentScope;
             Add(scope);
             int total = 0;
-            foreach (string s in InputHandler.GetUntilBlank(readLine))
+            foreach (string s in Input.YieldUntilEmpty(readLine))
             {
                 if (s[.."scope".Length] == "scope")
                 {
@@ -61,7 +62,7 @@ namespace MultiSSH
             Program.Log("Exclude entries:", prompt);
             int total = 0;
             string scope = Program.currentScope;
-            foreach (string s in InputHandler.GetUntilBlank(readLine))
+            foreach (string s in Input.YieldUntilEmpty(readLine))
             {
                 if (s[.."scope".Length] == "scope")
                 {
