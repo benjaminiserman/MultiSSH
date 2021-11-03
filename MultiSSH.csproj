@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="InputHandler" Version="1.1.0" />
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
   </ItemGroup>
 
