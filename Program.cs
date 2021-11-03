@@ -10,7 +10,7 @@ namespace MultiSSH
         public static string currentScope = "default";
         public static bool mainPrompt = true;  
 
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("Enter commands:");
 
@@ -71,6 +71,8 @@ namespace MultiSSH
                     break;
                 case "print":
                 case "echo":
+                case "say":
+                case "write":
                     if (split.Length > 2) throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 0-1 arguments");
                     scopeUsed = split.Length == 1 ? currentScope : split[1];
                     ScopeHandler.Print(scopeUsed, writeLine);
