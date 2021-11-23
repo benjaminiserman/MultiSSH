@@ -37,16 +37,23 @@ class Program
         {
             case "define":
             case "def":
-                if (split.Length > 5) throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 0-4 arguments");
-                else if (split.Length == 1) x = ScopeHandler.Define(readLine, prompt);
-                else x = ScopeHandler.Define(split);
+                x = split.Length switch
+                {
+                    > 5 => throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 0-4 arguments"),
+                    1 => ScopeHandler.Define(readLine, prompt),
+                    _ => ScopeHandler.Define(split),
+                };
+
                 Log($"{x} entries created.", prompt);
                 break;
             case "exclude":
             case "exc": // exc, exc a scope b
-                if (split.Length == 1) x = ScopeHandler.Exclude(readLine, prompt);
-                else if (split.Length is 3 or 4) x = ScopeHandler.Exclude(split);
-                else throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 2-4 arguments");
+                x = split.Length switch
+                {
+                    1 => ScopeHandler.Exclude(readLine, prompt),
+                    3 or 4 => ScopeHandler.Exclude(split),
+                    _ => throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 2-4 arguments"),
+                };
                 Log($"{x} entries removed.", prompt);
                 break;
             case "move":
@@ -83,9 +90,11 @@ class Program
                 Log($"Variables and scopes cleared.", prompt);
                 break;
             case "scope":
-                if (split.Length != 2) throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 1 argument");
-                else if (scopes.ContainsKey(split[1])) currentScope = split[1];
-                else throw new ArgumentException($"Specified scope {split[1]} does not exist!");
+                currentScope = split.Length != 2
+                    ? throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 1 argument")
+                    : scopes.ContainsKey(split[1]) 
+                        ? split[1] 
+                        : throw new ArgumentException($"Specified scope {split[1]} does not exist!");
                 break;
             case "clear":
             case "clr":

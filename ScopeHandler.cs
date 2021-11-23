@@ -6,7 +6,7 @@ using InputHandler;
 
 public static class ScopeHandler
 {
-    static readonly char[] scopeIllegal = new[] { ',', ' ' };
+    static readonly char[] _scopeIllegal = new[] { ',', ' ' };
 
     public static int Define(Func<string> readLine, bool prompt)
     {
@@ -45,8 +45,15 @@ public static class ScopeHandler
                 return l.Count;
             case 4:
             {
-                if (split[2] == "scope") Clone(split[3], split[1]);
-                if (split[2] == "file") throw new NotImplementedException();
+                switch (split[2])
+                {
+                    case "scope":
+                        Clone(split[3], split[1]);
+                        break;
+                    case "file":
+                        throw new NotImplementedException();
+                }
+
                 return Program.scopes[split[3]].Count;
             }
             default:
@@ -141,7 +148,7 @@ public static class ScopeHandler
 
     private static void Add(string scope, List<string> list)
     {
-        if (scope.Any(x => scopeIllegal.Contains(x))) throw new FormatException("Scope names cannot include commas.");
+        if (scope.Any(x => _scopeIllegal.Contains(x))) throw new FormatException("Scope names cannot include commas.");
         if (!Program.scopes.ContainsKey(scope)) Program.scopes.Add(scope, list);
     }
 }
