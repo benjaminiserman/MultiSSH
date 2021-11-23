@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace MultiSSH;
+using System;
 using System.Collections.Generic;
-
-namespace MultiSSH;
 
 public static class UrlExpander
 {
