@@ -66,6 +66,14 @@ public sealed class Connection : IDisposable
         return (UnicodeEncoding.GetString(outputBuffer), UnicodeEncoding.GetString(errorBuffer));
     }
 
+    public (string, string) ReadText(out byte[] outputBuffer, out byte[] errorBuffer)
+    {
+        outputBuffer = new byte[(int)_outputStream.Length];
+        errorBuffer = new byte[(int)_errorStream.Length];
+
+        return ReadText(outputBuffer, errorBuffer);
+    }
+
     public void Flush()
     {
         _inputStream.Flush();

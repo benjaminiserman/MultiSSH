@@ -1,6 +1,7 @@
 ﻿namespace MultiSSH;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 class Program
 {
@@ -118,6 +119,25 @@ class Program
                 if (split.Length > 1) throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes 0 arguments");
                 writeLine($"There are currently {scopes.Count} scopes:");
                 foreach (var kvp in scopes) writeLine($"    {kvp.Key} ({kvp.Value.Count} entries)");
+                break;
+            case "command":
+                if (split.Length < 4) throw new ArgumentException($"Improper number of arguments. {split[0].ToUpper()} takes at least two arguments.");
+
+                StringBuilder sb = new();
+                foreach (var y in split[3..]) sb.Append($"{y} ");
+                sb.Remove(sb.Length - 1, 1);
+                string command = sb.ToString();
+
+                foreach (string scope in scopes[currentScope])
+                {
+                    var c = new Connection(scope, split[1], split[2], 2220);
+                    c.Connect();
+                    c.RunCommand(command);
+
+                    (string text, _) = c.ReadText(out byte[] _, out byte[] _);
+                    writeLine($"{scope}: {text}");
+                }
+
                 break;
             default:
                 throw new MissingMethodException("No such command exists.");
